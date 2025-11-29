@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "terraform-state-2025"
+    bucket         = "fundednext-terraform-state-2025"
     key            = "prod/terraform.tfstate"
     region         = "ap-south-1"
     dynamodb_table = "terraform-locks"
@@ -12,15 +12,15 @@ provider "aws" {
   region = "ap-south-1"
 }
 
-resource "aws_s3_bucket"state_bucket" {
-  bucket = "terraform-state-2025"
+resource "aws_s3_bucket" "state_bucket" {
+  bucket        = "fundednext-terraform-state-2025"
   force_destroy = true
 }
 
 resource "aws_dynamodb_table" "lock_table" {
-  name         = "terraform-locks"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "LockID"
+  name           = "terraform-locks"
+  billing_mode   = "PAY_PER_REQUEST"
+  hash_key       = "LockID"
 
   attribute {
     name = "LockID"
@@ -29,9 +29,9 @@ resource "aws_dynamodb_table" "lock_table" {
 }
 
 resource "aws_instance" "demo" {
-  ami           = "ami-0dee22c13ea7a9a60"  # Amazon Linux 2 Mumbai
+  ami           = "ami-0dee22c13ea7a9a60"  # Amazon Linux 2023 Mumbai
   instance_type = "t3.micro"
   tags = {
-    Name = "fix-broke-tf"
+    Name = "FundedNext-Demo-Instance"
   }
 }
